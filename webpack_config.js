@@ -47,10 +47,11 @@ module.exports = {
   },
   devtool: isDev ? 'inline-source-map' : false,
   devServer: {
-    contentBase:
-        isDev ? path.join(__dirname, 'src') : path.join(__dirname, 'dist'),
+    static: {
+      directory: isDev ? path.join(__dirname, 'src') : path.join(__dirname, 'dist'),
+    },
     port: 8080,
-    hot: true,
+    hot: 'only',
   },
   plugins: [
     new CleanWebpackPlugin(),

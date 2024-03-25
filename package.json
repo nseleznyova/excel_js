@@ -5,7 +5,7 @@
   "main": "webpack_config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack_config.js --hot --inline --hot-only",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack_config.js --hot",
     "build": "cross-env NODE_ENV=production webpack --mode production --config webpack_config.js"
   },
   "repository": {
@@ -41,12 +41,12 @@
     "eslint-loader": "^4.0.2",
     "html-webpack-plugin": "^4.5.0",
     "mini-css-extract-plugin": "^1.2.1",
-    "npm-sass": "^2.3.0",
+    "npm-sass": "^3.1.0",
     "sass": "^1.29.0",
     "sass-loader": "^10.0.5",
-    "webpack": "^5.4.0",
-    "webpack-cli": "3.3.12",
-    "webpack-dev-server": "^3.11.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",
     "webpack-nano": "^1.1.0"
   },
   "dependencies": {
