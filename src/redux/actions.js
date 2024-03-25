@@ -1,4 +1,4 @@
-import {CHANGE_TEXT, TABLE_RESIZE} from '@/redux/types';
+import {CHANGE_TEXT, CHANGE_CURRENT_TEXT, TABLE_RESIZE} from '@/redux/types';
 import {APPLY_STYLE, CHANGE_STYLES, CHANGE_TITLE} from './types';
 
 export function tableResize(data) {
@@ -16,6 +16,12 @@ export function changeText(data) {
   }
 }
 
+export function changeCurrentText(data) {
+  return {
+    type: CHANGE_CURRENT_TEXT,
+    data,
+  }
+}
 
 export function changeStyles(data) {
   return {

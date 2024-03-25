@@ -65,6 +65,7 @@ export class Table extends ExcelComponent {
     this.$emit('table:select', $cell)
     const styles = $cell.getStyles(Object.keys(defaultStyles))
     this.$dispatch(actions.changeStyles(styles))
+    this.$dispatch(actions.changeCurrentText($cell.data.value))
     console.log($cell.getStyles(Object.keys(defaultStyles)))
   }
 
@@ -116,13 +117,17 @@ export class Table extends ExcelComponent {
 
   updateTextInStore(value) {
     this.$dispatch(actions.changeText({
-      id: this.selection.current.id(),
       value,
+      ids: this.selection.selectedIds,
     }))
   }
 
   onInput(event) {
-    this.updateTextInStore($(event.target).text())
+    const value = $(event.target).text()
+    this.selection.current
+        .attr('data-value', value)
+        .text(parse(value))
+    this.updateTextInStore(value)
   }
 
   onCopy(event) {
