@@ -18,7 +18,7 @@ export class Table extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown', 'keydown', 'input'],
+      listeners: ['mousedown', 'keydown', 'input', 'copy', 'paste'],
       ...options,
     });
   }
@@ -123,5 +123,14 @@ export class Table extends ExcelComponent {
 
   onInput(event) {
     this.updateTextInStore($(event.target).text())
+  }
+
+  onCopy(event) {
+    event.preventDefault()
+    event.clipboardData.setData('text/plain', $(event.target).text());
+  }
+
+  onPaste(event) {
+    event.clipboardData.getData('text/plain');
   }
 }
