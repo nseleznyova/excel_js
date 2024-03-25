@@ -9,7 +9,7 @@ export class Header extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Header',
-      listeners: ['input'],
+      listeners: ['input', 'click'],
       ...options,
     });
   }
@@ -21,7 +21,7 @@ export class Header extends ExcelComponent {
         <div>
 
             <div class="button">
-                <i class="material-icons">delete</i>
+                <i class="material-icons" data-button="delete">delete</i>
             </div>
             <div class="button">
                 <i class="material-icons">exit_to_app</i>
@@ -34,5 +34,11 @@ export class Header extends ExcelComponent {
   onInput(event) {
     const $target = $(event.target)
     this.$dispatch(changeTitle($target.text()))
+  }
+
+  onClick(event) {
+    if ($(event.target).data.button === 'delete') {
+      this.$emit('cell:deleteСontent');
+    }
   }
 }

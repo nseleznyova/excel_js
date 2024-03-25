@@ -38,9 +38,7 @@ export class Table extends ExcelComponent {
     this.selectCell($cell)
 
     this.$on('formula:input', value => {
-      this.selection.current
-          .attr('data-value', value)
-          .text(parse(value))
+      this.selection.applyText(value)
       this.updateTextInStore(value)
     })
 
@@ -55,7 +53,17 @@ export class Table extends ExcelComponent {
         value,
         ids: ids,
       }))
-      // debugger
+    })
+
+    this.$on('cell:deleteСontent', () => {
+      this.selection.applyStyle(defaultStyles)
+      const ids = this.selection.selectedIds
+      this.$dispatch(actions.applyStyle({
+        defaultStyles,
+        ids: ids,
+      }))
+      this.updateTextInStore('')
+      this.selection.applyText('')
     })
   }
 

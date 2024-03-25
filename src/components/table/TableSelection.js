@@ -1,3 +1,5 @@
+import {parse} from '../../core/parse';
+
 export class TableSelection {
   static className = 'selected'
 
@@ -32,5 +34,9 @@ export class TableSelection {
 
   applyStyle(style) {
     this.group.forEach($el => $el.setCss(style))
+  }
+
+  applyText(value) {
+    this.group.forEach($el => $el.attr('data-value', value).text(parse(value)))
   }
 }
