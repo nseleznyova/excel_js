@@ -1,5 +1,6 @@
-// Pure functions
+import {rowsCount} from '../constants';
 
+// Pure functions
 
 export function capitalize(string) {
   if (typeof string !== 'string') {
@@ -24,7 +25,7 @@ export function nextSelector(key, {col, row}) {
   switch (key) {
     case 'Enter':
     case 'ArrowDown':
-      row++
+      row = row + 1 > rowsCount-1 ? rowsCount-1 : row + 1
       break
     case 'Tab':
     case 'ArrowRight':

@@ -1,11 +1,7 @@
 import {toInlineStyles} from '../../core/utils';
-import {defaultStyles} from '../../constants';
+import {defaultStyles, rowsCount, CODES} from '../../constants';
 import {parse} from '../../core/parse';
 
-const CODES = {
-  A: 65,
-  Z: 90,
-}
 const DEFAULT_WIDTH = '125px'
 const DEFAULT_HEIGHT = '24px'
 
@@ -85,7 +81,7 @@ function toChar(_, index) {
   return String.fromCharCode(CODES.A + index)
 }
 
-export function createTable(state = {}, rowsCount = 20) {
+export function createTable(state = {}) {
   const colsCount = CODES.Z - CODES.A + 1
   const rows = []
   

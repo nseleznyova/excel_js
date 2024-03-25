@@ -6,7 +6,7 @@ import {TableSelection} from '@/components/table/TableSelection';
 import {$} from '@core/dom';
 import {nextSelector} from '@core/utils';
 // import * as actions from '@/redux/actions';
-import {defaultStyles} from '../../constants';
+import {defaultStyles, rowsCount, CODES} from '../../constants';
 import * as actions from '../../redux/actions';
 import {parse} from '../../core/parse';
 import {createTable} from './table.template';
@@ -59,7 +59,7 @@ export class Table extends ExcelComponent {
       this.selection.applyStyle(defaultStyles)
       const ids = this.selection.selectedIds
       this.$dispatch(actions.applyStyle({
-        defaultStyles,
+        value: defaultStyles,
         ids: ids,
       }))
       this.updateTextInStore('')
@@ -97,9 +97,29 @@ export class Table extends ExcelComponent {
         const $cells = matrix(target, current)
             .map(id => this.$root.find(`[data-id="${id}"]`))
         this.selection.selectGroup($cells)
+      } else if (event.ctrlKey) {
+        this.selection.group.push($target)
+        this.selection.selectGroup(this.selection.group)
       } else {
         this.selectCell($target)
       }
+    } else if (event.target.closest('[data-type="resizable"]')) {
+      const parent = event.target.closest('[data-type="resizable"]')
+      let firstCell
+      let lastCell
+      if ($(parent).data.col) {
+        const colId = $(parent).data.col 
+        firstCell = {col: +colId, row: 0}
+        lastCell = {col: +colId, row: rowsCount -1}
+      } else if ($(parent).data.row) {
+        const colsCount = CODES.Z - CODES.A + 1
+        const rowId = $(parent).data.row
+        firstCell = {col: 0, row: +rowId -1}
+        lastCell = {col: colsCount-1, row: +rowId -1}
+      } else return
+      const $cells = matrix(lastCell, firstCell)
+          .map(id => this.$root.find(`[data-id="${id}"]`))
+      this.selection.selectGroup($cells)
     }
   }
 
@@ -115,11 +135,18 @@ export class Table extends ExcelComponent {
 
     const {key} = event
 
-    if (keys.includes(key) && !event.shiftKey) {
+    if (keys.includes(key)) {
       event.preventDefault()
       const id = this.selection.current.id(true)
       const $next = this.$root.find(nextSelector(key, id))
-      this.selectCell($next)
+      if (event.shiftKey || event.ctrlKey) {
+        this.selection.group.push($next)
+        this.selection.selectGroup(this.selection.group)
+        this.selection.current = $next
+        $next.focus().addCssClass(TableSelection.className)
+      } else {
+        this.selectCell($next)
+      }
     }
   }
 

@@ -7,3 +7,10 @@ export const defaultStyles = {
 
 
 export const defaultTitle = 'Новая таблица'
+
+export const rowsCount = 20
+
+export const CODES = {
+  A: 65,
+  Z: 90,
+}
