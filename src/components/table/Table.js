@@ -167,10 +167,21 @@ export class Table extends ExcelComponent {
 
   onCopy(event) {
     event.preventDefault()
-    event.clipboardData.setData('text/plain', $(event.target).text());
+    const data = {
+      styles: JSON.stringify($(event.target)
+          .getStyles(Object.keys(defaultStyles))),
+      text: $(event.target).text(),
+    }
+    event.clipboardData.setData('text/plain', JSON.stringify(data));
   }
 
   onPaste(event) {
-    event.clipboardData.getData('text/plain');
+    event.preventDefault()
+    const data = event.clipboardData.getData('text/plain');
+    const {text, styles} = JSON.parse(data);
+    this.selection.applyStyle(JSON.parse(styles))
+    this.selection.current
+        .attr('data-value', text)
+        .text(text)
   }
 }
