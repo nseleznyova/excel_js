@@ -178,10 +178,24 @@ export class Table extends ExcelComponent {
   onPaste(event) {
     event.preventDefault()
     const data = event.clipboardData.getData('text/plain');
-    const {text, styles} = JSON.parse(data);
-    this.selection.applyStyle(JSON.parse(styles))
+    if (!data) return
+    let text = ''
+    let styles = defaultStyles
+    try {
+      const parseData = JSON.parse(data);
+      text = parseData.text
+      styles = JSON.parse(parseData.styles) 
+    } catch (error) {
+      text = data
+    }
+    this.selection.applyStyle(styles)
+    this.$dispatch(actions.applyStyle({
+      value: styles,
+      ids: [this.selection.current.$el.dataset.id],
+    }))
     this.selection.current
         .attr('data-value', text)
         .text(text)
+    this.updateTextInStore(text)
   }
 }
